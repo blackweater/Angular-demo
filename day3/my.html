@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<script type="text/javascript" src="js/angular.min.js"></script>
+</head>
+<body>
+	<div class="container" ng-app="app1">
+	<div class="panel panel-default" ng-controller="todoCtrl">
+		<ul class="list-group">
+			<li class="list-group-item" ng-repeat="item in bigList"><!-- bigList -->
+		<h2 ng-bind="item" ng-click="showList($index)"></h2><!-- 点击传个index进去 -->
+		<ul class="list-group" ng-show="curIndex === $index">
+			<li class="list-group-item" ng-repeat="item in sublist2" ng-cloak ng-mouseenter="changeSubMenu($index)"><!-- sublist2 -->
+				<span class="glyphicon glyphicon-plus" ng-show="curSubIndex === $index"></span> <!-- 这个是加号 -->{{item.title}} --- {{item.year + "-" + item.month}}
+			</li>
+		</ul>
+			</li>
+		</ul>
+	</div>
+	</div>
+	<script>
+		var app=angular.module("app1",[]);
+		app.controller("todoCtrl",["$scope","sublist",function($scope,sublist){
+			$scope.bigList = ["魂牵梦萦","别茜奇葩","范德萨"];
+			$scope.showList = function(index){
+				// console.log(index);
+				$scope.curIndex = index;
+				$scope.sublist2 = [];
+				sublist.getDataByBigid(index,function(data){
+					console.log(data);
+					// console.log("cb");
+					$scope.sublist2 = data.result;
+				},function(err){
+					console.log(err);
+				});
+			}
+			//改变加号位置
+			$scope.changeSubMenu = function(index){
+				$scope.curSubIndex = index;
+			}
+		}]);
+		app.factory("sublist",function($http,$q){
+			return {
+				getDataByBigid:function(index,callback,fail){
+
+					$http({
+						method:"GET",
+						// data: { bigid: index },
+						url:"json/historytoday.json"
+					}).then(function(res){
+						// console.log(res);
+						callback(res.data);
+					},function(err){
+						fail(err);
+						// console.log(err);
+					})/*.success(function(){
+
+					})*/
+
+				}
+			}
+		})
+	</script>
+</body>
+</html>

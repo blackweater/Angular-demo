@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>angularjs</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container" ng-app="app1">
+		<div class="row" ng-controller="controller1">
+		 	控制器1：{{username}}--{{userpwd}}--{{userage}}
+			<div class="col-md-6" ng-controller="controller2">
+				<!-- 在控制器2中可以访问控制器1中的数据，反过来不可以 -->
+				控制器2：{{username}}--{{userpwd}}--{{userage}}
+			</div>
+		</div>
+		<div class="row" ng-controller="controller3">
+			控制器3：{{username}}
+		</div>
+	</div>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script>
+		var app = angular.module('app1', []);
+		app.controller("controller1",function($scope,$rootScope){
+			/*每个控制器中的变量，只在本控制器内有效，要想在另一个控制器中访问，则必须借助$rootScope对象
+			$rootScope对象是在整个模块（module)中有效
+			*/
+			$rootScope.username = 'testaaa';
+		});
+		app.controller("controller2",function($scope){
+			$scope.userpwd = '123466';
+			$scope.userage = '30';
+		});
+		app.controller("controller3",function($scope,$rootScope){
+
+			$scope.username = $rootScope.username;
+		});
+	</script>
+</body>
+</html>

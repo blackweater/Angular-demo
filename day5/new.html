@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/angular-route.js"></script>
+</head>
+<body>
+<div class="container" ng-app="app1">
+		<div class="panel panel-default" ng-controller="todoCtrl">
+			<div class="menu">
+				<a href="#/news">新闻</a>
+				<a href="#/sec">第二页</a>
+			</div>
+			<div class="box" ng-view>
+				
+			</div>
+		</div>
+	</div>	
+	<script>
+	var app=angular.module("app1",["ngRoute"]);
+		app.controller("todoCtrl",["$scope",function($scope){
+
+		}]);
+		//$scope忘记导入
+		app.controller("homeCtrl",["$scope",function($scope){
+					$scope.msg="这是来自home页的问候"
+		}]);
+		app.controller("secCtrl",["$scope",function($scope){
+					$scope.msg="这是来自sec页的问候"
+		}]);
+		app.controller("thirdCtrl",["$scope",function($scope){
+					$scope.msg="这是来自third页的问候"
+		}]);
+		app.config(["$routeProvider",function($routeProvider){
+			$routeProvider.when("/home",{
+				// template:'{{msg}}', //模板内容
+				template:'{{msg}}', //模板路径
+				controller:"homeCtrl" //定义模板对应的controller名字
+			}).when("/sec",{
+				template:'{{msg}}', 
+				// templateUrl:'template/home.html', 
+				controller:"secCtrl" 
+			}).when("/third",{
+				template:'{{msg}}', 
+				// templateUrl:'template/home.html', 
+				controller:"thirdCtrl" 
+			})
+		}]);
+	</script>
+</body>
+</html>

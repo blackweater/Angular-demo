@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<script type="text/javascript" src="js/angular.min.js"></script>
+</head>
+<body>
+	<div class="container" ng-app="app1">
+		<div class="panel panel-default" ng-controller="todoCtrl">
+			<p>真实姓名：{{user.realname}}</p>
+			<p>用户名：{{user.curUsername}}</p>
+		</div>
+
+		<div class="panel panel-default" ng-controller="todoCtrl2">
+			<p>真实姓名：<input type="text" ng-model="user.realname"></p>
+
+			<p>用户名：{{user.curUsername}}</p>
+		</div>
+	</div>
+
+	<script>
+		var app=angular.module('app1',[]);
+		app.controller('todoCtrl',["$scope","$login",function($scope,$login){
+			$scope.user = $login;
+			var res = $login.valideMobile();
+			console.log(res);
+		}]);
+
+		app.controller("todoCtrl2",["$scope","$login",function($scope,$login){
+			$scope.user = $login;  
+			var res = $login.valideMobile();
+			console.log(res);
+		}]);
+
+		//创建一个用于登录的服务
+		app.factory("$login",function(){
+			return {
+				curUsername:"test",
+				realname:"张三",
+				sex:"男",
+				valideMobile:function(num){
+					return true;
+				},
+				toLogin:function(){
+
+				},
+				toReg:function(){
+
+				}
+			}
+		})
+	</script>
+</body>
+</html>

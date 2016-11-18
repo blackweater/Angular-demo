@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>过滤器</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container" ng-app="" style="margin-top:2rem">
+	<div class="row">
+		<div class="col-12">
+	<p>性别：<input type="text" ng-model="filtersex"></p>
+	<p>班级：<input type="text" ng-model="filterclass"></p>
+	<p>含有任意字符的：<input type="text" ng-model="filtertext"></p>
+	<ul class="list-group" ng-init="list=[
+	{name:'张三',sex:'男',age:20,class:1605},
+	{name:'李四',sex:'男',age:22,class:1605},
+	{name:'王舞',sex:'女',age:21,class:1601},
+	{name:'赵敏',sex:'女',age:20,class:1605},
+	]">
+	<li class="list-group-item" ng-repeat="item in list | filter:{sex:filtersex,class:filterclass} | filter:filtertext" >
+		姓名：{{item.name}}--性别：{{item.sex}}--年龄：{{item.age}}--班级：{{item.class}}
+	</li>
+	</ul>
+	</div>
+	</div>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+</body>
+</html>

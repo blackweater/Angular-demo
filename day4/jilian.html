@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<script type="text/javascript" src="js/angular.min.js"></script>
+</head>
+<body>
+<div class="container" ng-app="app1">
+	<div class="row" ng-controller="myctr">
+	<mySddress>
+		<select ng-repeat="item.pname in list1" >省</select>
+		<select ng-repeat="item.cname in list2">市</select>
+		
+	</mySddress>
+	</div>
+</div>
+	<script>
+		var app=angular.module("app1",[]);
+		app.controller("myctr",["$scope",function($scope){
+			
+			
+		}]);
+		app.directive("text",function(){
+			restrict:'E',
+			replace:ture,
+			controller:function($scope){
+				var _this=this;
+				$scope.list1=[{id:1,pname:"广东"},{id:2,pname:"湖南"}];
+			this.list2={1:[{id:1,cname:"广州"},{id:2,cname:"深圳"}],2:[
+			{id:1,cname:"长沙"},{id:2,cname:"张家界"}]};
+
+			}
+		});
+	</script>
+</body>
+</html>

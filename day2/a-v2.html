@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="js/angular-1.4.7.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+<div class="container" ng-app="app1">
+	<div class="row"  ng-controller="todoCtrl">
+	<button id="btnA" ng-click="changeTxt()">{{btnText}}</button>
+	</div>
+</div>
+	<script>
+		var app=angular.module("app1",[]);
+		var btn=document.getElementById("btnA");
+		app.controller("todoCtrl",["$scope","$timeout",function($scope,$timeout){
+			$scope.btnText="登录";
+			$timeout(function(){
+			angular.element(btn).addClass("btn btn-primary");
+			},2000);
+			$scope.changeTxt = function(){
+				$scope.btnText="登录中>>>";
+			}
+		}]);
+	</script>
+</body>
+</html>

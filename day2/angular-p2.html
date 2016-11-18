@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="js/angular-1.4.7.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+<div class="container" ng-app="myapp">
+	<div class="row" ng-controller="controller1">
+	<ul class="list-group">	
+	<li class="list-group-item" ng-repeat="item in list | filter:{sex:filterSex,class:filterClass}"> 姓名：{{item.name}}---性别：{{item.sex}}---年龄:{{item.age}}---班级：{{item.class}} </li>
+	</ul>
+	</div>
+</div>
+	<script>
+		console.log(angular.equals(NaN,NaN));
+		var app=angular.module("myapp",[]);
+		app.controller("controller1",function($scope){
+		$scope.list = [{name:'张三',sex:'男',age:20,class:'1605'},
+				{name:'李四',sex:'男',age:20,class:'1605'},
+				{name:'王五',sex:'男',age:40,class:'1606'},
+				{name:'赵六',sex:'女',age:30,class:'1608'},
+				{name:'钱七',sex:'女 ',age:21,class:'1605'},
+				{name:'朱八',sex:'男',age:26,class:'1605'}];
+				console.log(angular.fromJson($scope.list));
+				console.log(angular.toJson($scope.list));
+			$scope.list1=angular.copy($scope.list);
+			console.log($scope.list1==$scope.list);//flase
+			console.log(angular.equals($scope.list,$scope.list1));//true
+			});
+	</script>
+</body>
+</html>

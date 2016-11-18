@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container" ng-app="">
+	<form>
+	<fieldset ng-init="msg='hello world!'"></fieldset>
+	<legend>第一个例子</legend>
+	<input type="text" ng-model="msg">
+	</br>
+	{{msg}}
+	<p ng-bind="msg"></p>
+	<hr>
+	<fieldset>
+		<legend>计算总价</legend>
+		<p>单价：<input type="text" name="price1" ng-model="price"></p>
+		<p>数量：<input type="text" name="qty1" ng-model="qty">
+		</p>
+		<p>总价：{{price*qty}}元</p>
+	</fieldset>
+	</form>
+	</div>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+</body>
+</html>

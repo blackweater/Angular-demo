@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>angularjs</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+	<!-- 使用ng-app创建的是一个angularjs的模块 -->
+	<div class="container" ng-app="app1">
+		<div class="row" ng-controller="controller1">
+			<!-- 页面中的html就是mvc中的"v"，即视图 -->
+			<div class="col-md-12">
+				<input type="text">
+				{{msg}}
+				<ul class="list-group">
+					<li class="list-group-item" ng-repeat="item in list | filter:{sex:filterSex,class:filterClass}"> 姓名：{{item.name}}---性别：{{item.sex}}---年龄:{{item.age}}---班级：{{item.class}} </li>
+				</ul>
+			</div>
+		</div>
+		<div class="row" ng-controller="controller2">
+			消息：{{msg}}
+		</div>
+	</div>
+	<script src="js/angular.min.js"></script>
+	<script>
+		//这里创建的模块，与页面dom中的模块对应
+		var app = angular.module('app1', []); //第二个参数不能省略
+		//创建一个控制器。第一个参数是控制器名字，第二个参数是一个，这个函数是控制器执行js代码的地方
+		//这里的$scope是固定的名字，不能写错
+		//控制器就是视图和数据之间的桥梁，即mvc中的"c"
+		app.controller("controller1",function($scope){
+			/*var obj = {};
+			obj.msg = "";*/
+			$scope.msg = "hello angular"; //可以认为这里的msg是数据，即mvc中的"m"
+			$scope.list = [{name:'张三',sex:'male',age:20,class:'1605'},
+				{name:'李四',sex:'male',age:20,class:'1605'},
+				{name:'王五',sex:'男',age:40,class:'1606'},
+				{name:'赵六',sex:'女',age:30,class:'1608'},
+				{name:'钱七',sex:'male',age:21,class:'1605'},
+				{name:'朱八',sex:'男',age:26,class:'1605'}];
+
+		});
+
+		//一个模块下可以有多个控制器
+		//控制器中的数据，默认情况下不能互相访问
+		app.controller("controller2",function($scope){
+
+		});
+		
+	</script>
+</body>
+</html>

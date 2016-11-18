@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>angularjs</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<style type="text/css">
+		/* 添加css3过滤动画效果 */
+		.box{
+			width: 200px; height: 200px; background-color: #f66;
+			transition: all 2s linear;
+		}
+		.ng-hide-add{ width: 200px; height: 200px; background-color: #f66; }
+		.ng-hide-add-active{ width: 0; height: 0; background-color: #66f;}
+		.ng-hide-remove{ width: 0; height: 0; background-color: #66f; }
+		.ng-hide-remove-active{ width: 200px; height: 200px; background-color: #f66; }
+
+		/* ng-enter
+		ng-enter-active
+		ng-leave
+		ng-leave-active */
+
+	</style>
+</head>
+<body>
+	<div class="container" ng-app="app1">
+		<div class="panel panel-default" ng-controller="todoCtrl">
+			<input type="checkbox" ng-model="isShow">
+			<div class="box" ng-hide="isShow"></div>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<!-- 引入js -->
+	<script type="text/javascript" src="js/angular-animate.min.js"></script>
+
+	<script>
+		//导入模块
+		var app = angular.module('app1', ['ngAnimate']);
+		app.controller("todoCtrl",["$scope",function($scope){
+			
+
+		}]);
+	</script>
+</body>
+</html>

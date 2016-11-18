@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>angularjs</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container" ng-app="app1">
+		<div class="panel panel-default" ng-controller="todoCtrl">
+			<!-- 1. form一定要有名字 -->
+			<form action="#" name="loginForm">
+				<!-- 2.每个input也要有名字，每个input必须有ng-model属性 -->
+				<p>用户名: <input type="text" name="uname" ng-model="user.uname" required ng-minlength="6" ng-maxlength="25">
+				<span class="text-warning" ng-if="loginForm.uname.$error.required">用户名必填</span>
+				<span class="text-warning" ng-if="loginForm.uname.$error.minlength || loginForm.uname.$error.maxlength">长度不合法</span>
+				<!-- <span class="text-warning" ng-if="loginForm.uname.$error.minlength">用户名最少6个字符</span>
+				<span class="text-warning" ng-if="loginForm.uname.$error.maxlength">用户名最多25个字符</span> -->
+				</p>
+				<!-- 3.添加验证规则 -->
+				<p>密码: <input type="password" name="upwd" ng-model="user.pwd" ng-pattern="/[a-z]/">
+				<span class="text-warning" ng-if="loginForm.upwd.$error.pattern">输入的密码格式不对</span>
+				</p>
+				<p><input type="button" value="登录" ng-disabled="loginForm.$invalid"> </p>
+				
+			</form>
+		</div>
+		<!-- http://api.avatardata.cn/HistoryToday/LookUp?key=3870d5bad7c842439ec614869698d04e&yue=1&ri=1&type=1&page=1&rows=5 -->
+	</div>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script>
+		var app = angular.module('app1', []);
+		app.controller("todoCtrl",["$scope","$http",function($scope,$http){
+
+			/*$http({
+				method:'GET',
+				url:'http://api.avatardata.cn/GuoNeiNews/Query?key=78491aaba19443cbb780d57dbd942b6a&page=1&rows=10'
+			}).then(function(res){
+				console.log(res);
+			},function(err){
+
+			})*/
+
+// JSON_CALLBACK()
+			$http.jsonp('http://temp.cn/getapi.php?callback=JSON_CALLBACK', {
+				params:{
+					apiurl:encodeURIComponent('http://api.avatardata.cn/WxNews/Query?key=a6196fb5b6e9496f92a5dbcd4af65054&page=1&rows=10&keyword=北京')
+				}
+			}).then(function(res){
+				console.log(res);
+			},function(err){
+				console.log(err);
+			})
+		}]);
+	</script>
+</body>
+</html>

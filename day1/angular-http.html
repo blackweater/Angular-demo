@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>angularjs</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container" ng-app="app1">
+		<ul class="list-group" ng-controller="httpCtrl">
+			<li class="list-group-item" ng-repeat="item in list" ng-cloak>{{item.title}} --- {{item.year}}</li>
+		</ul>
+		<hr>
+		<ul class="list-group" ng-controller="httpCtrl">
+			<li class="list-group-item" ng-repeat="item in portalcate" ng-cloak>{{item.title}} --- {{item.username}}</li>
+		</ul>
+	</div>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script>
+		var app = angular.module('app1', []);
+		app.controller("httpCtrl",["$scope","$http",function($scope,$http){
+
+			$scope.list = null;
+			//使用$http服务，在使用时，传入配置对象
+			$http({
+			  method: 'GET', //http请求的方法
+			  url: 'json/historytoday.json' //访问资源的路径
+			}).then(function successCallback(response) {
+				//请求成功的回调，这个函数名可以改
+			    if(response.data){
+			    	$scope.list = response.data.result;
+			    }
+			  }, function errorCallback(response) {
+			    console.log(response);
+			  });
+
+
+			var myUrl = "http://www.phonegap100.com/appapi.php?a=getPortalList&catid=20&page=1&callback=JSON_CALLBACK";
+			$http.jsonp(myUrl).success(
+				function(data){
+					$scope.portalcate = data.result;
+				}
+			).error(function(){
+				alert('shibai');
+				
+			});
+			// promise('type', target )
+		}])
+
+
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/angular-route.js"></script>
+</head>
+<body>
+	<div class="container" ng-app="app1">
+		<div class="panel panel-default" ng-controller="todoCtrl">
+			<div class="menu">
+				<a href="#/home">首页</a>
+				<a href="#/sec">第二页</a>
+				<a href="#/third">第三页</a>
+			</div>
+			<div class="box" ng-view>
+				
+			</div>
+		</div>
+	</div>
+	<script>
+		var app=angular.module("app1",["ngRoute"]);
+		app.controller("todoCtrl",["$scope",function($scope){
+
+		}]);
+		//$scope忘记导入
+		
+		app.config(["$routeProvider",function($routeProvider){
+			$routeProvider.when("/home",{
+				// template:'{{msg}}', //模板内容
+				template:'{{msg}}', //模板路径/内容
+				controller:"homeCtrl" //定义模板对应的controller名字
+			})
+		}]);
+	</script>
+</body>
+</html>

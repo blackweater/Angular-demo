@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>todolist</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container" ng-app="app1">
+		<form class="form" role="form" ng-controller="todoCtrl">
+		  <div class="form-group">
+		    <input type="text" class="form-control" placeholder="请输入内容。。。" ng-model="task" ng-keydown="addTask($event)">
+		    <!-- 使用ng-keydown绑定事件到$scope对象
+		    注意参数中的$event，这是固定的写法，表示当前dom对象的event事件。
+		     -->
+		  </div>
+			<ul class="list-group">
+				<li class="list-group-item" ng-repeat="item in tasklist" ng-bind="item"></li>
+			</ul>
+		</form>
+		
+	</div>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script>
+		var app = angular.module('app1', []);
+		app.controller("todoCtrl",["$scope",function($scope){
+			$scope.task = "";
+			$scope.tasklist = [];
+
+			//$scope对象下还可以添加函数
+			$scope.addTask = function(evt){
+				if(evt.keyCode !== 13){
+					return;
+				}
+
+				$scope.tasklist.push($scope.task);
+				$scope.task = "";
+			}
+		}])
+
+	</script>
+</body>
+</html>

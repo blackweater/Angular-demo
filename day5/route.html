@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>angularjs</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container" ng-app="app1">
+		<div class="panel panel-default" ng-controller="todoCtrl">
+			<div class="menu">
+				<a href="#/news">新闻</a>
+				<a href="#/sec">第二页</a>
+			</div>
+			<div class="box" ng-view>
+				
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/angular-route.js"></script>
+	<script>
+		var app = angular.module('app1', ["ngRoute"]);
+		app.controller("todoCtrl",["$scope",function($scope){
+			
+		}]);
+		app.config(["$routeProvider",function($routeProvider){
+			$routeProvider.when("/news",{
+				template:'', 
+				controller:" "
+			}).when("/newsdetail/:nid",{
+				template:'', 
+				// templateUrl:'template/home.html', 
+				controller:"" 
+			})
+		}])
+		app.controller("homeCtrl",function($scope){
+			$scope.newsList = [{},{},{}]
+		});
+		app.controller("newsdetailCtrl",function($scope,$routeParams){
+			var nid = $routeParams.nid;
+			$scope.newsDetailList = [{},{}];
+
+			console.log(nid);
+			$scope.detail = {nid:1,title:'魂牵梦萦',content:"这奇葩魂牵梦萦大规模 "};
+			/*angular.forEach($scope.newsDetailList,function(val,index){
+				console.log(val);
+			})*/
+		});
+	</script>
+</body>
+</html>

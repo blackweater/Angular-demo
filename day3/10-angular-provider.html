@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>angularjs</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container" ng-app="app1">
+		<div class="panel panel-default" ng-controller="todoCtrl">
+			{{msg}}
+		</div>
+	</div>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script>
+		var app = angular.module('app1', []);
+		app.controller("todoCtrl",["$scope","news",function($scope,news){
+			// $scope.msg = user.msg;
+
+			news.getNewsData().then(function(){
+				//console.log(news);
+				console.log( news.datalist);
+			})
+		}]);
+
+/*		//使用provider创建一个服务，以下是固定写法
+		app.provider("user",function(){
+			var msg = "from provider";
+
+			//这里return的对象，只可以在config方法中访问
+			return {
+				changeMsg:function(){
+					msg = "msg已经在配置里改了";
+				},
+				//$get方法，必须有
+				$get:function(){
+
+					//这里return的对象，才是我们调用时，可以访问到的对象
+					return {
+						msg:msg
+					}
+
+				}
+			}
+		});
+
+		app.config(function(userProvider){
+			userProvider.changeMsg();
+		});*/
+
+
+		//
+		app.provider("news",function(){
+			var url = "";
+			return {
+				setUrl:function(newUrl){
+					url = newUrl;
+				},
+				$get:function($http){
+				//在哪里用http就写在哪
+
+					return {
+						datalist:null, //这里缓存ajax请求返回的数据
+						getNewsData:function(){
+							var _this = this;
+							return $http({
+								url:url,
+								method:"GET",
+								params: { page: 1 }
+							}).then(function(data){
+								_this.datalist = data;
+								//console.log(data);
+							}, function(err){
+								_this.datalist = err;
+							})
+						}
+
+					}
+				}
+			}
+		});
+
+		/*app.config(function(newsProvider){
+			newsProvider.setUrl("json/worldnews.json");
+		})*/
+
+
+	</script>
+</body>
+</html>

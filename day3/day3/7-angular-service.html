@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>angularjs</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container" ng-app="app1">
+		<div class="panel panel-default" ng-controller="todoCtrl">
+			
+		</div>
+	</div>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script>
+		var app = angular.module('app1', []);
+		app.controller("todoCtrl",["$scope","user",function($scope,user){
+			console.log(user.proA);
+		}]);
+
+		app.service("user",function(){
+			//service定义的服务，不用返回object，所有要暴露的方法和属性，都写在this对象上
+			var msg = "";
+			this.proA = "AAAA";
+			this.methodA = function(){
+				return "dddd";
+			}
+		})
+	</script>
+</body>
+</html>

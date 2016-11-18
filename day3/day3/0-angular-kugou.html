@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>angularjs</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container" ng-app="app1">
+		<div class="panel panel-default" ng-controller="todoCtrl">
+			<ul class="list-group">
+				<li class="list-group-item" ng-repeat="item in bigList">
+					<h2 ng-bind="item" ng-click="showList($index)"></h2>
+					<ul class="list-group" ng-show="curIndex === $index">
+						<li class="list-group-item">
+							大柳塔别
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script>
+		var app = angular.module('app1', []);
+		app.controller("todoCtrl",["$scope",function($scope){
+			$scope.bigList = ["魂牵梦萦","别茜奇葩","范德萨"];
+			$scope.showList = function(index){
+				// console.log(index);
+				$scope.curIndex = index;
+			}
+		}]);
+	</script>
+</body>
+</html>

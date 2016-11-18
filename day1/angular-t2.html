@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		$http({
+			  method: 'GET', //http请求的方法
+			  url: 'json/historytoday.json' //访问资源的路径
+			}).then(function successCallback(response) {
+				//请求成功的回调，这个函数名可以改
+			    // this callback will be called asynchronously
+			    // when the response is available
+			    if(response.data){
+			    	$scope.list = response.data.result;
+			    }
+			  }, function errorCallback(response) {
+			    // called asynchronously if an error occurs
+			    // or server returns response with an error status.
+			    console.log(response);
+			  });
+
+
+
+	</script>
+</body>
+</html>

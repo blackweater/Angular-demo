@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>angularjs</title>
+	<style type="text/css">
+		*{ margin: 0; padding: 0; }
+		html,body{ height: 100%; }
+		.clear{ clear: both; }
+		.head{ width: 100%; height: 63px; background-color: #eff4fa; }
+		.foot{ width: 100%; height: 37px; background-color: #eff4fa; position: fixed; bottom: 0; left: 0;  }
+		.body{
+			width: 960px; padding: 70px 20px; margin: 0 auto; border: 1px solid red;
+		}
+		.login{ width: 200px; height: 400px; }
+	</style>
+</head>
+<body>
+	<header class="head"></header>
+	<main class="body" ng-app="app1">
+		<div class="login" ng-controller="todoCtrl" ng-init="curTab=0">
+			<ul>
+				<li ng-click="curTab = 0">快速登录</li>
+				<li ng-click="curTab = 1">账号密码登录</li>
+			</ul>
+			<div ng-show="curTab === 0">
+				快速登录
+			</div>
+			<div ng-show="curTab === 1">
+				账号密码登录
+			</div>
+		</div>
+		<div class="clear"></div>
+	</main>
+	<footer class="foot"></footer>
+
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script>
+		var app = angular.module('app1', []);
+		app.controller("todoCtrl",["$scope",function($scope){
+		
+
+		}]);
+	</script>
+</body>
+</html>

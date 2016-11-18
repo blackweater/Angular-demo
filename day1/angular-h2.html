@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>js在angular</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<style type="text/css">
+		[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+	  display: none !important;
+	}
+	</style>
+</head>
+<body>
+	<div class="container" ng-app="app1" style="margin-top:2rem">
+	<div class="row" >
+		<div class="col-12">	
+	<p>含有任意字符的：<input type="text" ng-model="filtertext"></p>
+		<button class="btn btn-success" ng-click="addTask()">添加消息</button>	<input type="text" ng-bind="message" ng-cloak>
+		<hr>
+		<ul class="list-group" ng-controller="httpCtrl">
+			<li class="list-group-item" ng-repeat="item in portalcate | filter:filtertext" ng-cloak>{{item.title}} --- {{item.username}}<a href="#" class="glyphicon glyphicon-remove pull-right" ng-click="deleteTask($index)"></a></li>
+		</ul>
+	</div>
+	</div>
+	</div>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script>
+		var app=angular.module('app1',[]);//app的名字
+		app.controller("httpCtrl",["$scope","$http",function($scope,$http){
+				//jsonp
+			
+			var myUrl = "http://www.phonegap100.com/appapi.php?a=getPortalList&catid=20&page=1&callback=JSON_CALLBACK";
+			$http.jsonp(myUrl).success(
+				function(data){
+					$scope.portalcate = data.result;
+				}
+			).error(function(){
+				alert('fail to link internet');
+				
+			});
+			// promise('type', target );
+			$scope.deleteTask = function(index){
+				 console.log(index);
+				$scope.portalcate.splice(index,1);
+			};
+			
+		}]);
+	</script>
+</body>
+</html>

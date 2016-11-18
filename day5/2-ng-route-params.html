@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>angularjs</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container" ng-app="app1">
+		<div class="panel panel-default" ng-controller="todoCtrl">
+			<div class="menu">
+				<a href="#/news">新闻</a>
+				<a href="#/sec">第二页</a>
+			</div>
+			<div class="box" ng-view>
+				
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/angular-route.js"></script>
+	<script>
+		var app = angular.module('app1', ["ngRoute"]);
+		app.controller("todoCtrl",["$scope",function($scope){
+			
+
+		}]);
+		app.config(["$routeProvider",function($routeProvider){
+			$routeProvider.when("/news",{
+				template:'<ul><li ng-repeat="x in newsList"><a href="#/newsdetail/{{x.nid}}">{{x.title}}</a></li></ul>', //模板路径
+				controller:"homeCtrl" //定义模板对应的controller名字
+			}).when("/newsdetail/:nid",{
+				template:'<h2>{{detail.title}}</h2><p>{{detail.content}}</p>', 
+				// templateUrl:'template/home.html', 
+				controller:"newsdetailCtrl" 
+			})
+		}])
+		app.controller("homeCtrl",function($scope){
+			$scope.newsList = [{nid:1,title:'魂牵梦萦'},{nid:2,title:'电路图里奇工'},{nid:3,title:'扔授信授信'}]
+		});
+		app.controller("newsdetailCtrl",function($scope,$routeParams){
+			var nid = $routeParams.nid;
+			$scope.newsDetailList = [{nid:1,title:'魂牵梦萦',content:"这奇葩魂牵梦萦大规模 "},{nid:2,title:'电路图里奇工',content:"大规模 的呻 阿斯蒂芬  "},{nid:3,title:'扔授信授信',content:"电路图基材荷叶边春树暮云  "}];
+
+			console.log(nid);
+			$scope.detail = {nid:1,title:'魂牵梦萦',content:"这奇葩魂牵梦萦大规模 "};
+			/*angular.forEach($scope.newsDetailList,function(val,index){
+				console.log(val);
+			})*/
+		});
+	</script>
+</body>
+</html>

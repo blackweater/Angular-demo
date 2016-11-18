@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	 <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>angularjs</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="ux_1477481960_338235/iconfont.css">
+	<style type="text/css">
+		[ng-cloak]{display: none;
+			visibility:hidden!important;
+		}
+		.container{background:skyblue;}
+		.row{margin:0 auto;display: flex;text-align: center;width:100%;}
+		.active{position: relative;width:20%;color:green;}
+		.icon-jiantou1{font-size: 10px;}
+		.jet{display:block;position:fixed;top:0;text-align: center;width:18%;}	
+		.col{flex:1;text-align: center;}
+		#title{margin:0;padding:15px 0;border-bottom: 0px;}
+		.pnnel{background:skyblue;}
+	</style>
+</head>
+<body>
+	<div class="container" ng-app="app1">
+	<div class="panel panel-default" id="title">
+	<div class="row">
+				<div class="col"><i class="iconfont icon-yinle active"></i></div>
+				<div class="col"><i class="iconfont icon-yunduan"></i></div>
+				<div class="col"><i class="iconfont icon-xiangsidiantai"></i></div>
+				<div class="col"><i class="iconfont icon-shouji"></i></div>
+				<div class="col"><i class="iconfont icon-bendixiazai"></i></div>
+				<span class="jet"><i class="iconfont icon-jiantou1"></i></span>
+		</div>
+		</div>
+		<div class="panel panel-default" ng-controller="todoCtrl">
+		<ul class="list-group" >
+		<li  class="list-group-item" id="tp">
+			<ul class="list-group">
+				<li class="list-group-item" ng-repeat="item in bigList">
+					<h2 ng-bind="item" ng-click="showList($index)"></h2>
+					<ul class="list-group" ng-show="curIndex === $index">
+						
+						<li class="list-group-item" ng-repeat="item in sublist2" ng-cloak ng-mouseenter="changeSubMenu($index)">
+							<span class="glyphicon glyphicon-plus" ng-show="curSubIndex === $index"></span> {{item.title}} --- {{item.year + "-" + item.month}}
+						</li>
+					</ul>
+					<!-- <a href="#" class="btn btn-primary" ng-click="test($event)">确定</a> -->
+					</li>
+					</ul>
+			</li>			
+			<!-- <li class="list-group-item" ng-cloak >		
+			</li> -->
+		</ul>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script>
+		var app = angular.module('app1', []);
+		app.controller("todoCtrl",["$scope","sublist",function($scope,sublist){
+			$scope.bigList = ["列表1","列表2","我的音乐"];
+			$scope.showList = function(index){
+				// console.log(index);
+				$scope.curIndex = index;
+				$scope.sublist2 = [];
+				//step 1
+				sublist.getDataByBigid(index,function(data){
+					//step 4
+					console.log(data);
+					// console.log("cb");
+					$scope.sublist2 = data.result;
+				},function(err){
+					console.log(err);
+				});
+			}
+
+			//鼠标移过二级菜单的li时的事件回调
+			$scope.changeSubMenu = function(index){
+				$scope.curSubIndex = index;
+			}
+
+			$scope.test = function(evt){
+				console.log(evt);
+			}
+		}]);
+
+		app.factory("sublist",function($http,$q){
+			return {
+				getDataByBigid:function(index,callback,fail){
+					//step 2
+					$http({
+						method:"GET",
+						params: { bigid: index },
+						// data: { bigid: index },
+						url:"json/historytoday.json"
+					}).then(function(res){
+						//res是返回的对象
+						 console.log("res",res);
+						// callback();
+						// step 3
+						callback(res.data);
+					},function(err){
+						fail(err);
+						// console.log(err);
+					})
+
+				}
+			}
+		})
+	</script>
+</body>
+</html>

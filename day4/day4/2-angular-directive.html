@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>angularjs</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<style type="text/css">
+		
+	</style>
+</head>
+<body>
+	<div class="container" ng-app="app1">
+		<div class="panel panel-default" ng-controller="todoCtrl">
+			<a href="" class="btn btn-default" ng-click="showAlert()"></a>
+
+			<btn></btn>
+
+			<!-- <div test></div> -->
+
+
+			<div class="box" box="mouseenter">
+				
+			</div>
+		</div>
+		<div class="panel panel-default" ng-controller="todoCtrl2">
+			<div test="click">sssss</div>
+
+			<a href="#" class="btn btn-primary" loginfo="click">春树暮云</a>
+
+			<a href="#" class="btn btn-default testaa">大规模 </a>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script>
+		var app = angular.module('app1', []);
+		app.controller("todoCtrl",["$scope",function($scope){
+			$scope.showAlert = function(){
+				console.log("showAlert");
+			}
+
+			$scope.msg = "message";
+		}]);
+		app.controller("todoCtrl2",["$scope",function($scope){
+			$scope.msg = "222222";
+		}]);
+
+		//使用指令，创建一个元素
+		app.directive("btn",function(){
+			return {
+				restrict:"E", //定义指令类型，这里是使用自定义标签来调用指令
+				replace:true, //替换掉页面上原来的调用元素
+				template:'<a href="#" class="btn btn-primary">按钮333</a>'
+			}
+		});
+
+		//使用属性调用的指令
+		app.directive("test",function(){
+			return {
+				restrict:"A", //attribute
+				// restrict:"C", //class
+				// replace:true,
+				template:'<a href="#" class="btn btn-primary">按钮333</a>', //要在指令元素中显示的html
+				link:function(scope,element,attr){
+					//scope指向指令元素所在的controller中的$scope
+					//element指当前的指令元素
+					// console.log(scope.msg);
+					// console.log("attr:",attr.test);
+					element.on(attr.test, function(event) {
+						event.preventDefault();
+						// scope.showAlert();
+						console.log(scope.msg);
+					});
+				}
+			}
+		})
+
+		//使用class调用的指令
+		app.directive("testaa",function(){
+			return {
+				// restrict:"A", //attribute
+				restrict:"C", //class
+				// restrict:"M", //注释调用
+				// replace:true,
+				link:function(scope,element,attr){
+					//scope指向指令元素所在的controller中的$scope
+					//element指当前的指令元素
+					// console.log(scope.msg);
+					// console.log("attr:",attr.test);
+					element.on("click", function(event) {
+						event.preventDefault();
+						// scope.showAlert();
+						
+						console.log("from class directive");
+					});
+				}
+			}
+		})
+
+		app.directive("loginfo",function(){
+			return function(scope,element,attr){
+				element.on(attr.loginfo, function(event) {
+					event.preventDefault();
+					// scope.showAlert();
+					console.log(scope.msg);
+				});
+			}
+		})
+	</script>
+</body>
+</html>

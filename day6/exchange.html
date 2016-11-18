@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html ng-app="app1">
+<head>
+	<meta charset="UTF-8">
+	<title>canvas</title>
+	<style type="text/css">
+		canvas {
+			width: 100%;
+			height: 200px;
+		}
+	</style>
+	<script type="text/javascript" src="js/angular.js"></script>
+</head>
+<body>
+	<div ng-controller=	"first">
+		<p>{{name}}</p>
+	</div>
+	<div ng-controller="sec">
+		<p>{{name}}</p>
+	</div>
+</body>
+	<script>
+		var app = angular.module('app1',[]);
+
+		app.service('$hh',function($document){
+			return {
+				//根据对应的控制器插入对应的canvas,并加上对应的id
+				e:function(ctrl){
+	var cav= $document[0].querySelector('[ng-controller='+ctrl+']');
+	 var canvas=$document[0].createElement('canvas');
+	     canvas.id = ctrl + 'Canvas';	     
+	     cav.appendChild(canvas);
+	     return canvas
+				},
+				//画曲线
+				m:function(ctrl,data){
+				console.log(data);
+				console.log(data.params.lineWidth)
+					//先画canvas
+					var cav = this.e(ctrl);
+					var cans = cav.getContext('2d');
+					cans.moveTo(0,0);
+					cans.strokeStyle = data.params.color;
+					cans.lineWidth = data.params.lineWidth;
+					//console.log(this);
+					var self = this;
+					(function(){
+						//console.log(self)
+					})()
+					return cans;
+				}
+			}
+		});
+
+	app.controller('first',function($scope, $document, $interval,$hh){
+			var cans = $hh.m('first',{
+				params:{
+					color:'red',
+					lineWidth:1,
+				}
+			})
+
+			$scope.name = "first";
+			var offset = 5
+				//用定时器每隔一秒钟获取后台的一个新数据
+			$interval(function() {
+				cans.lineTo(offset, parseInt(Math.random()*50));
+				cans.stroke();
+				offset += 5
+			},1000);
+		});
+
+	app.controller('sec',function($scope, $document, $interval,$hh){
+		var cans = $hh.m('sec',{
+				params:{
+					color:'blue',
+					lineWidth:2,
+				}
+			})
+		$scope.name = "second";
+		var offset = 5
+				//用定时器每隔一秒钟获取后台的一个新数据
+			$interval(function() {
+				cans.lineTo(offset, parseInt(Math.random()*50));
+				cans.stroke();
+				offset += 5
+			},1000);
+	})
+	</script>
+</html>

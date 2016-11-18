@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>directive</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<script type="text/javascript" src="js/angular.min.js"></script>
+</head>
+<body>
+	<div class="container" ng-app="app1">
+		<div class="panel panel-default" ng-controller="myctr">
+			我的网页效果<div test></div>
+		</div>
+	</div>
+	<script>
+		var app=angular.module("app1",[]);
+		app.controller("myctr",function(){
+
+		});
+		app.directive("test",function(){
+			return {
+			restrict:'A',
+			replace:true,
+			template:'<a class="btn btn-success">成功了</a>';
+			}
+		});
+	</script>
+</body>
+</html>

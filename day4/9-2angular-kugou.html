@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>angularjs</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<style type="text/css">
+		[ng-cloak]{
+			display: none!important;
+		}
+		html,body{ height: 100%; }
+		.list-group-item{ text-indent: 20px; position: relative; }
+		.icon-plus{ position: absolute; left: 0; top: 20%; }
+		.right-box{ background-color: rgba(200, 0, 0, 0.6); width: 200px; height: 80px; position: absolute; right: 200px; top: 0; }
+		.box2{ width: 200px; position: absolute; }
+	</style>
+</head>
+<body>
+	<div class="container" ng-app="app1">
+		<div class="panel panel-default" ng-controller="todoCtrl">
+			<ul class="list-group">
+				<li class="list-group-item" ng-repeat="item in bigList">
+					<h2 ng-click="showList($index)">
+						<span ng-show="!item.isEdit">{{item.txt}} <a href="#" class="btn glyphicon glyphicon-align-justify" ng-click="openAlert($event)"></a></span> 
+					
+						<input type="text" ng-show="item.isEdit" ng-model="item.txt" ng-focus="curIndex = null">
+					</h2>
+					<ul class="list-group" ng-show="curIndex === $index">
+						
+						<li class="list-group-item" ng-repeat="item in sublist2" ng-cloak ng-mouseenter="changeSubMenu($index)">
+							<span class="glyphicon glyphicon-plus icon-plus" ng-show="curSubIndex === $index"></span> {{item.title}} --- {{item.year + "-" + item.month}}
+
+							<div class="right-box" ng-show="curSubIndex === $index">
+								
+							</div>
+						</li>
+
+					</ul>
+					<!-- <a href="#" class="btn btn-primary" ng-click="test($event)">奇葩</a> -->
+				</li>
+			</ul>
+
+			<div class="box2" id="box2" ng-style="styleAlertbox">
+				<ul class="list-group">
+					<li class="list-group-item">新建列表</li>
+					<li class="list-group-item">添加歌曲</li>
+					<li class="list-group-item">新建列表</li>
+					<li class="list-group-item">添加歌曲</li>
+					<li class="list-group-item">新建列表</li>
+					<li class="list-group-item">添加歌曲</li>
+					<li class="list-group-item">新建列表</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script>
+		function getElementLeft(element){
+	　　　　var actualLeft = element.offsetLeft;
+	　　　　var current = element.offsetParent;
+	　　　　while (current !== null){
+	　　　　　　actualLeft += current.offsetLeft;
+	　　　　　　current = current.offsetParent;
+	　　　　}
+	　　　　return actualLeft;
+	　　}
+		function getElementTop(element){
+	　　　　var actualTop = element.offsetTop;
+	　　　　var current = element.offsetParent;
+	　　　　while (current !== null){
+	　　　　　　actualTop += current.offsetTop;
+	　　　　　　current = current.offsetParent;
+	　　　　}
+	　　　　return actualTop;
+	　　}
+		var app = angular.module('app1', []);
+		app.controller("todoCtrl",["$scope","sublist","$timeout","$document",function($scope,sublist,$timeout,$document){
+			$scope.bigList = [{txt:"魂牵梦萦",isEdit:false},{txt:"城区厅",isEdit:false},{txt:"悲咽果蔬",isEdit:false},{txt:"新建菜单",isEdit:true}];
+			$scope.showList = function(index){
+				// console.log(index);
+				$scope.curIndex = index;
+				$scope.sublist2 = [];
+				//step 1
+				sublist.getDataByBigid(index,function(data){
+					//step 4
+					console.log(data);
+					// console.log("cb");
+					$scope.sublist2 = data.result;
+				},function(err){
+					console.log(err);
+				});
+			}
+
+			//鼠标移过二级菜单的li时的事件回调
+			$scope.changeSubMenu = function(index){
+				$scope.curSubIndex = index;
+			}
+
+			$scope.test = function(evt){
+				console.log(evt);
+			}
+
+			$scope.styleAlertbox = {'display':'none'}
+			$scope.openAlert = function(evt){
+				console.log(evt);
+				var elem = evt.target;
+				$timeout(function(){
+					// console.log(elem);
+					/*var w = angular.element(elem).css("offsetWidth");
+					*/
+					// console.log(elem.offsetWidth);
+					var l = getElementLeft(elem) + elem.offsetWidth,
+						t = getElementTop(elem) + elem.offsetHeight;
+					$scope.styleAlertbox = {'display':'block','left':l+"px",'top':t+'px' }
+				},200);
+			}
+			$document.on('click', function(event) {
+				event.preventDefault();
+				var elem = angular.element(event.target);
+				if(elem[0].nodeName == "LI"){
+					elem = elem.parent().parent();
+				}
+				if(elem[0].id !== 'box2'){
+					//在dom操作时，修改$scope中的值，一定要记得使用$apply刷新
+					$scope.$apply(function(){
+						$scope.styleAlertbox = { 'display':'none' }
+					})					
+				}
+				// console.log(elem[0].id);
+				// console.log(angular.element(event.target).parent()[0].nodeName);
+				// console.log(event.target);
+			});
+		}]);
+
+		app.factory("sublist",function($http,$q){
+			return {
+				getDataByBigid:function(index,callback,fail){
+					//step 2
+					$http({
+						method:"GET",
+						params: { bigid: index },
+						// data: { bigid: index },
+						url:"json/historytoday.json"
+					}).then(function(res){
+						// console.log(res);
+						// callback();
+						// step 3
+						callback(res.data);
+					},function(err){
+						fail(err);
+						// console.log(err);
+					})//*.success(function(){
+
+					// })
+
+				}
+			}
+		})
+
+		
+	</script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>angularjs</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container" ng-app="app1">
+		<div class="panel panel-default" ng-controller="todoCtrl">
+			<div class="menu">
+				<a href="#/news">新闻</a>
+				<a href="#/sec">第二页</a>
+			</div>
+			<div class="box" ng-view>
+				
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/angular-route.js"></script>
+	<script>
+		var app = angular.module('app1', ["ngRoute"]);
+		app.controller("todoCtrl",["$scope",function($scope){
+			
+		}]);
+		app.config(["$routeProvider",function($routeProvider){
+			$routeProvider.when("/news",{
+				template:'<ul><li ng-repeat="x in newsList"><a href="#/newsdetail/{{$index}}">{{x.title}}</a></li></ul>', 
+				controller:"homeCtrl"
+			}).when("/newsdetail/:nid",{
+				//:nid定义要传入的id参数，这个地址会被映射为类似：#/newsdetail/1 
+				template:'<h2>{{detail.title}}</h2><p>{{detail.ctime}}</p><img src="{{detail.picUrl}}">', 
+				// templateUrl:'template/home.html', 
+				controller:"newsdetailCtrl" 
+			})
+		}])
+		app.controller("homeCtrl",function($scope,newsData){
+			newsData.getNewsList().then(function(res){
+				console.log(res);
+				$scope.newsList = res.data.result;
+			},function(error){
+				console.log(error);
+			})
+
+			
+		});
+		app.controller("newsdetailCtrl",function($scope,$routeParams,newsData){
+			//$routeParams用来获取从地址栏传入的参数
+			var nid = $routeParams.nid;//这里的参数名要与上边config中配置的路径中的 :nid 匹配
+			/*$scope.newsDetailList = [{nid:1,title:'魂牵梦萦',content:"这奇葩魂牵梦萦大规模"},{nid:2,title:'电路图里奇工',content:"大规模 的呻 阿斯蒂芬"},{nid:3,title:'扔授信授信',content:"电路图基材荷叶边春树暮云 "}];
+
+			angular.forEach($scope.newsDetailList,function(val,index){
+				if(val.nid == nid ){
+					$scope.detail = val;
+				}
+			})*/
+			newsData.getNewsDetail(nid).then(function(){
+				$scope.detail = newsData.newsDetail;
+			})
+
+		});
+
+		app.factory("newsData",function($http){
+			return{
+				getNewsList:function(){
+					/*return [{nid:1,title:'魂牵梦萦'},{nid:2,title:'电路图里奇工'},{nid:3,title:'扔授信授信'}];*/
+
+					return $http({
+						method:"GET",
+						url:'json/guoneinews.json'
+					});
+				},
+				newsDetail:{},
+				getNewsDetail:function(nid){
+					var _this = this;
+					return $http({
+						method:"GET",
+						url:'json/guoneinews.json'
+					}).then(function(res){
+						angular.forEach(res.data.result,function(val,index){
+							if(index == nid ){
+								_this.newsDetail = val;
+							}
+						})
+					}, function(error){
+						_this.newsDetail = error;
+					});
+				}
+			}
+		})
+	</script>
+</body>
+</html>

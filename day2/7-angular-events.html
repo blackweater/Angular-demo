@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>angularjs</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<style type="text/css">
+		.box{ width: 400px; height: 400px; background-color: #f99; }
+	</style>
+</head>
+<body>
+	<div class="container" ng-app="app1">
+		<div class="panel panel-default" ng-controller="todoCtrl">
+			<div class="box" ng-mousedown="moused($event)">
+				
+			</div>
+
+			<form action="" ng-submit="ngSubmit($event)">
+				<input type="number" ng-model="selNum" placeholder="密码" ng-change="changeSel()">
+
+				<input type="button" ng-disabled="isDis" value="按钮" class="btn btn-primary">
+				<input type="text" ng-readonly="isDis"><!-- 若为true就不能选了 -->
+
+				<input type="button" ng-disabled="isDis" value="按钮22" ng-class="classA">
+
+				<textarea  cols="30" rows="10" ng-copy="copy1()"></textarea>
+
+				<select><!--  ng-change="changeSel()" -->
+					<option value="0">000</option>
+					<option value="1" ng-selected="selNum == 1">111</option>
+					<option value="2" ng-selected="selNum == 2">222</option>
+				</select>
+				<input type="submit" value="提交">
+			</form>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script>
+		var app = angular.module('app1', []);
+		app.controller("todoCtrl",["$scope",function($scope){
+			$scope.selNum = '';
+
+			$scope.isDis = false;
+
+			$scope.classA = {'btn':true, 'btn-primary':true};
+
+			$scope.copy1 = function(){
+				console.log("copy1");
+			};
+
+			$scope.changeSel = function(){
+				console.log($scope.selNum);
+			}
+			$scope.moused = function(evt){
+				console.log("mousedown",evt);
+			}
+
+			$scope.ngSubmit = function(evt){
+				evt.preventDefault();
+				console.log("ddd");
+			}
+		}]);
+	</script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>angularjs</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container" ng-app="app1">
+		<div class="panel panel-default" ng-controller="todoCtrl">
+			
+			<p>{{ 111.22345 | currency:"￥"}}</p>
+			{{'他妈的，别南非世界杯，fuck,塔顶' | guolv}} <br>
+			{{ '他妈的，别南非世界杯，fuck,塔顶' | guolv | reverse}}
+			<!-- 过滤器可以使用多个 -->
+		</div>
+	</div>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script>
+		var app = angular.module('app1', []);
+		app.controller("todoCtrl",["$scope",function($scope){
+			
+		}]);
+
+		//自定义过滤器
+		app.filter("guolv",function(){
+			// 这是固定写法，返回一个function
+			return function(input){
+				// 在返回的function中，传一个input参数，这个参数的内容，是过滤器要过滤的对象
+				return input.replace('他妈的','***').replace("fuck","****");
+				// 执行过滤操作后，返回过滤后的结果
+			}
+		})
+
+		app.filter("reverse",function(){
+			return function(input){
+				var arr = input.split("");
+				return arr.reverse().join("");
+			}
+		})
+	</script>
+</body>
+</html>

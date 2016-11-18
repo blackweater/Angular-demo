@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>angularjs</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container" ng-app="app1">
+		<div class="panel panel-default" ng-controller="todoCtrl">
+			
+			<a href="" ng-class="btnClassObj">按钮22</a>
+			<a href="" ng-class="{'btn':true,'btn-default':true,'btn-primary':false,'btn-warning':false}">按钮</a>
+
+			<!-- 直接在ng-href和ng-src属性中添加变量值（注意变量名要加双大括号），或字符串值 -->
+			<a ng-href="{{url}}">百度</a>
+			<a ng-href="https://www.baidu.com/">百度</a>
+			<img ng-src="{{imgUrl}}" alt="">
+		</div>
+	</div>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script>
+		var app = angular.module('app1', []);
+		app.controller("todoCtrl",["$scope","$timeout",function($scope,$timeout){
+			//通过js代码很方便的控制视图的class属性
+			$scope.btnClassObj = {'btn':true,'btn-default':true,'btn-primary':false,'btn-warning':false};
+			$timeout(function(){
+				$scope.btnClassObj['btn-default']=false;
+				$scope.btnClassObj['btn-primary']=true;
+			},1000)
+			$timeout(function(){
+				$scope.btnClassObj['btn-warning']=true;
+				$scope.btnClassObj['btn-primary']=false;
+			},2000)
+
+			$scope.url = "https://www.baidu.com/";
+			$scope.imgUrl = "https://rescdn.qqmail.com/zh_CN/htmledition/images/webp/tg-bird1fbc69.png";
+		}]);
+	</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>angularjs</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container" ng-app="app1">
+		<div class="panel panel-default" ng-controller="todoCtrl">
+			<div test></div>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script>
+		var app = angular.module('app1', []);
+		app.controller("todoCtrl",["$scope",function($scope){
+			// $scope.msg = "sssss0";
+		}]);
+		//使用属性调用的指令
+		app.directive("test",function(){
+			return {
+				restrict:"A", //attribute
+				template:'<a href="#" class="btn btn-primary">按钮333</a>', //要在指令元素中显示的html
+				controller:function($scope){
+					$scope.showAlert = function(){
+						// alert($scope.msg);
+					}
+				},
+				link:function(scope,element,attr){
+					element.on("click", function(event) {
+						event.preventDefault();
+						scope.showAlert();
+					});
+				}
+			}
+		})
+	</script>
+</body>
+</html>

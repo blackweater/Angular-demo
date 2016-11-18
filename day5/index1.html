@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>angularjs</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container" ng-app="app1">
+		<div class="panel panel-default" ng-controller="todoCtrl">
+			<div class="menu">
+				<a href="#/home">首页</a>
+				<a href="#/sec">第二页</a>
+				<a href="#/third">第三页</a>
+			</div>
+			<div class="box" ng-view>
+				
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<!-- step1，导入js文件 -->
+	<script type="text/javascript" src="js/angular-route.js"></script>
+	<script>
+		//step2, js中添加模块依赖
+		var app = angular.module('app1', ["ngRoute"]); 
+		app.controller("todoCtrl",["$scope",function($scope){
+			
+		}]);
+		app.controller("homeCtrl",function($scope){
+			$scope.msg="这是来自home页的问候"
+		})
+		app.controller("secCtrl",function($scope){
+			$scope.msg="这是来自sec页的问候"
+		})
+		app.controller("thirdCtrl",function($scope){
+			$scope.msg="这是来自third页的问候"
+		})
+		//step 3 使用app.config来配置路由。这里的$routeProvider属于前边引入的ngRoute模块
+		app.config(["$routeProvider",function($routeProvider){
+			//第一个参数对应地址栏中的参数，第二个参数配置页面显示
+			$routeProvider.when("/home",{
+				// template:'{{msg}}', //模板内容
+				templateUrl:'template/home.html', //模板路径
+				controller:"homeCtrl" //定义模板对应的controller名字
+			}).when("/sec",{
+				template:'{{msg}}', 
+				// templateUrl:'template/home.html', 
+				controller:"secCtrl" 
+			}).when("/third",{
+				template:'{{msg}}', 
+				// templateUrl:'template/home.html', 
+				controller:"thirdCtrl" 
+			})
+		}])
+	</script>
+</body>
+</html>

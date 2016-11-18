@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>element</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container" ng-app="app1">
+		<div class="panel panel-default" ng-controller="todoCtrl">
+			<a href="#" id="btnA" ng-click="changeTxt()">{{btnText}}</a>
+		</div>
+	</div>
+	<!-- 引入jquery库时，一定要把jquery库放在angular前边 -->
+	<!-- <script src="js/jquery-2.2.4.min.js"></script> -->
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script>
+	/*//相当于jquery的$(function(){})
+	angular.element(document).ready(function(){
+		console.log("dom ready");
+	});*/
+		var app = angular.module('app1', []);
+		app.controller("todoCtrl",["$scope","$timeout","$document",function($scope,$timeout,$document){
+
+			/*
+			//$document必须先注入进来才可以使用
+			 $document.ready(function() {
+				console.log("dom ready");
+			});*/
+
+			$timeout(function(){
+				//没有引入jquery库时的用法
+				angular.element(document.getElementById("btnA")).addClass('btn btn-primary');
+				// 
+				// 引入了jquery库之后的用法
+				// angular.element("#btnA").addClass('btn btn-primary');
+			},2000);
+			
+			$scope.btnText = "登录";
+			/*
+			//使用dom操作方式绑定事件
+			angular.element(document.getElementById("btnA")).on('click', function(event) {
+				event.preventDefault();
+				$scope.$apply(function(){
+					$scope.btnText = "登录中。。。。";
+				})
+			});*/
+
+
+			$scope.changeTxt = function(){
+				$scope.btnText = "登录中。。。。";
+			}
+		}]);
+	</script>
+</body>
+</html>
